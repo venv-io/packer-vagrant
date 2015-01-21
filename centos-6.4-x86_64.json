@@ -2,7 +2,7 @@
   "builders": [{
     "type": "virtualbox-iso",
     "virtualbox_version_file": ".vbox_version",
-    "headless": false,
+    "headless": true,
 
     "guest_os_type": "RedHat_64",
     "disk_size": 40960,
