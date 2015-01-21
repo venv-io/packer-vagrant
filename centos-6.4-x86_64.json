@@ -7,7 +7,7 @@
     "guest_os_type": "RedHat_64",
     "disk_size": 40960,
 
-    "iso_url": "http://10.111.131.68:3131/CentOS-6.4-x86_64-bin-DVD1.iso",
+    "iso_url": "file:///home/tony/downloads/CentOS-6.4-x86_64-bin-DVD1.iso",
     "iso_checksum": "8672dc087f1b0eda60b9efaa41b82f034f185e24",
     "iso_checksum_type": "sha1",
 
