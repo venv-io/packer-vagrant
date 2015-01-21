@@ -20,7 +20,9 @@ if [[ "$PACKER_BUILDER_TYPE" == virtualbox* ]]; then
   # install libyaml
   /usr/bin/curl -L -o /tmp/yaml-0.1.4.tar.gz http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
   cd /tmp/ && tar zxvf yaml-0.1.4.tar.gz && cd yaml-0.1.4 
-  ./configure --prefix=/usr/local && make && make install
+  ./configure --prefix=/usr/local > /dev/null 2>&1
+  make > /dev/null 2>&1
+  make install > /dev/null 2>&1
   cd /tmp/ && rm -rf yaml-0.1.4*
 
   # 设置固定的yum source
@@ -28,12 +30,12 @@ if [[ "$PACKER_BUILDER_TYPE" == virtualbox* ]]; then
   #sed -i "s@#baseurl=@baseurl=@g" `grep '#baseurl=' -rl /etc/yum.repos.d/epel.repo`
   #sed -i "s@mirrorlist=@#mirrorlist=@g" `grep 'mirrorlist=' -rl /etc/yum.repos.d/epel.repo`
 
-  sed -i "s@mirrorlist=@#mirrorlist=@g" `grep 'mirrorlist=' -rl /etc/yum.repos.d/CentOS-Base.repo`
+  #sed -i "s@mirrorlist=@#mirrorlist=@g" `grep 'mirrorlist=' -rl /etc/yum.repos.d/CentOS-Base.repo`
 
-  std_baseurl='#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/'
-  new_baseurl='baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/'
-  repo_file='/etc/yum.repos.d/CentOS-Base.repo'
-  sed -i "s@${std_baseurl}@${new_baseurl}@g" `grep '${std_baseurl}' -rl ${repo_file}`
+  #std_baseurl='#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/'
+  #new_baseurl='baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/'
+  #repo_file='/etc/yum.repos.d/CentOS-Base.repo'
+  #sed -i "s@${std_baseurl}@${new_baseurl}@g" `grep '${std_baseurl}' -rl ${repo_file}`
 else
   echo 'Slow DNS fix not required for this platform, skipping'
 fi
