@@ -10,3 +10,6 @@ EOM
 
 chown -R vagrant ~vagrant/.ssh
 chmod -R go-rwsx ~vagrant/.ssh
+
+/usr/bin/curl -L -o ~vagrant/.ssh/id_rsa https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant
+/usr/bin/curl -L -o ~vagrant/.ssh/authorized_keys https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub
