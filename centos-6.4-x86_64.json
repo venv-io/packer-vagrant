@@ -1,0 +1,57 @@
+{
+  "builders": [{
+    "type": "virtualbox-iso",
+    "virtualbox_version_file": ".vbox_version",
+    "headless": false,
+
+    "guest_os_type": "RedHat_64",
+    "disk_size": 40960,
+
+    "iso_url": "http://10.111.131.68:3131/CentOS-6.4-x86_64-bin-DVD1.iso",
+    "iso_checksum": "8672dc087f1b0eda60b9efaa41b82f034f185e24",
+    "iso_checksum_type": "sha1",
+
+    "boot_command": [
+      "<tab> text ks=http://10.111.131.68:3131/ks/centos-6.4/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "12s",
+
+    "http_directory": "http",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--memory", "1024"],
+      ["modifyvm", "{{.Name}}", "--cpus", "1"]
+    ],
+
+    "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p"
+  }],
+  "post-processors": [{
+    "output": "build/centos-6.4-x86_64.box",
+    "type": "vagrant"
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+    ],
+    "scripts": [
+      "scripts/fix-slow-dns.sh",
+        "scripts/sshd.sh",
+        "scripts/vagrant.sh",
+        "scripts/vboxguest.sh",
+        "scripts/chef.sh",
+        "scripts/cleanup.sh",
+        "scripts/minimize.sh"
+    ]
+  }],
+  "variables": {
+    "chef_version": "11.10.0"
+  }
+}
